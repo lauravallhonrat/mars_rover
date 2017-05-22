@@ -5,3 +5,7 @@ var myRover = {
   stopRover: false,
   obstacles: [[2, 3], [6, 7], [9, 10]]
 }
+function getCommands (commands) {
+  var instructions = commands.split(' ');
+  return instructions;
+}
