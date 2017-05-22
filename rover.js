@@ -9,7 +9,7 @@ function getCommands (commands) {
   return instructions;
 }
 
-function turnRoverRight(r){
+function turnRoverRight(){
   if (rover.currentPositon +1 <= 3){
       rover.currentPositon++;
   } else {
@@ -17,7 +17,7 @@ function turnRoverRight(r){
   }
 }
 
-function turnRoverLeft(l){
+function turnRoverLeft(){
   if (rover.currentPositon -1 >= 1){
       rover.currentPositon--;
   } else {
@@ -25,28 +25,65 @@ function turnRoverLeft(l){
   }
 }
 
-function roverMovements(instructions){
-  for (var i = 0; i < instructions.length; i++){
-
-  	if (rover.stopRover === false){
-
-    switch (instructions[i]){
-      case 'f':
-      moveRover('f');
+function moveforward()
+{
+	switch(rover.direction)
+	{
+    case 'N':
+      rover.position[0]++
       break;
-
-      case 'b':
-      moveRover('b');
+    case 'E':
+      rover.position[1]++
       break;
-
-      case 'l':
-      turnRoverLeft();
+    case 'S':
+      rover.position[0]--
       break;
-
-      case 'r':
-      turnRoverRight();
+    case 'W':
+      rover.position[1]--
       break;
-    }
-  }
+	}
 }
+function moveBackwards()
+{
+	switch(rover.direction)
+	{
+    case 'N':
+      rover.position[0]--
+      break;
+    case 'E':
+      rover.position[1]--
+      break;
+    case 'S':
+      rover.position[0]++
+      break;
+    case 'W':
+      rover.position[1]++
+      break;
+	}
+}
+
+function moveRover()
+{
+	var commands = document.getElementById("instruction").value;
+
+	for (i=0;i<commands.length;i++)
+	{
+		switch(commands[i])
+		{
+			case "f":
+	  			moveforward();
+	  			break;
+			case "b":
+	 			  moveBackwards();
+	  			break;
+	  	case "l":
+	 			  turnRoverLeft();
+	  			break;
+			case "r":
+	 			  turnRoverRight();
+	  			break;
+			default:
+	  			alert("Syntax error!\nCommand -" + commands[i] + "- unkwnown.");
+		}
+	}
 }
