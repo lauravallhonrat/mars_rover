@@ -4,6 +4,21 @@
 	<script type="text/javascript" src="rover.js"></script>
 </head>
 <body>
-
+    <H1>MARS ROVER KATA</H1>
+		<div style="border: 1px solid #000; border-radius:2px; padding:10px;">
+		<p>Rover's default position: X = 0, Y = 0, Facing North.</p><br>
+		<p>Grid Dimensions: 25 x 25</p><br>
+		<p>Enter the following commands ( f: forward , b: backward ,l: left , r: right )</p><br>
+    </div>
+    <br><br>
+		<input id="instruction" type="text">
+		<button type="button" onclick="moveRover()">Move!</button>
+		<button type="button" onclick="reset()">Reset</button>
+		<br><br>
+    <hr>
+    <br><br>
+		<b><div id="position"></div></b>
+    <br><br>
+		<hr>
 </body>
 </html>
