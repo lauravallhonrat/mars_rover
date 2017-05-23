@@ -9,19 +9,23 @@ var myRover = {
 }
 
 function turnRoverRight(){
-  switch(rover.direction)
+  switch(myRover.direction)
 	{
 		case 'N':
 			myRover.direction = 'E';
+      gridLimits();
 			break;
 		case 'S':
 			myRover.direction = 'W';
+      gridLimits();
 			break;
 		case 'E':
 			myRover.direction = 'S';
+      gridLimits();
 			break;
 		case 'W':
 			myRover.direction = 'N';
+      gridLimits();
 			break;
 	}
 }
@@ -50,15 +54,23 @@ function moveforward()
 	{
     case 'N':
 			myRover.positionY += 1;
+      gridLimits();
+      detectObstacle();
 			break;
 		case 'S':
 			myRover.positionY -= 1;
+      gridLimits();
+      detectObstacle();
 			break;
 		case 'E':
 			myRover.positionX += 1;
+      gridLimits();
+      detectObstacle();
 			break;
 		case 'W':
 			myRover.positionX -= 1;
+      gridLimits();
+      detectObstacle();
 			break;
 	}
 }
@@ -69,36 +81,44 @@ function moveBackwards()
 	{
     case 'N':
 			myRover.positionY -= 1;
+      gridLimits();
+      detectObstacle();
 			break;
 		case 'S':
 			myRover.positionY += 1;
+      gridLimits();
+      detectObstacle();
 			break;
 		case 'E':
 			myRover.positionX -= 1;
+      gridLimits();
+      detectObstacle();
 			break;
 		case 'W':
 			myRover.positionX += 1;
+      gridLimits();
+      detectObstacle();
 			break;
 	}
 }
 function gridLimits()
 {
-  if (positionX > 25) {
+  if (myRover.positionX > 25) {
     alert('You are out of limits!, setting to the default position...');
     reset();
   }
-  if (positionY > 25) {
+  if (myRover.positionY > 25) {
     alert('You are out of limits!, setting to the default position...');
     reset();
   }
 }
 function detectObstacle()
 {
- if (positionX === obstacle1X && positionY === obstacle1Y) {
+ if (myRover.positionX === myRover.obstacle1X && myRover.positionY === myRover.obstacle1Y) {
    alert('your Rover has crashed!, setting to the default position...');
    reset();
  }
- else if (positionX === obstacle2X && positionY === obstacle2Y) {
+ else if (myRover.positionX === myRover.obstacle2X && myRover.positionY === myRover.obstacle2Y) {
    alert('your Rover has crashed!, setting to the default position...');
    reset();
  }
@@ -116,19 +136,15 @@ function moveRover()
 		{
 			case 'f':
 	  			moveforward();
-          gridLimits();
 	  			break;
 			case 'b':
 	 			  moveBackwards();
-          gridLimits();
 	  			break;
 	  	case 'l':
 	 			  turnRoverLeft();
-          gridLimits();
 	  			break;
 			case 'r':
 	 			  turnRoverRight();
-          gridLimits();
 	  			break;
 			default:
 	  			alert("Syntax error!\nCommand -" + commands[i] + "- unkwnown.");
