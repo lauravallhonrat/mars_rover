@@ -9,25 +9,23 @@ var obstacles = [
     [12,7]
 ]
 var gridLimit = 25;
+var obstacleDetected = false;
+var limitsDetected = false;
 
 function turnRoverRight(){
   switch(myRover.direction)
 	{
 		case 'N':
 			myRover.direction = 'E';
-      gridLimits();
 			break;
 		case 'S':
 			myRover.direction = 'W';
-      gridLimits();
 			break;
 		case 'E':
 			myRover.direction = 'S';
-      gridLimits();
 			break;
 		case 'W':
 			myRover.direction = 'N';
-      gridLimits();
 			break;
 	}
 }
@@ -107,45 +105,45 @@ function gridLimits()
 {
   if (myRover.positionX > 0 && myRover.positionX > gridLimit) {
     myRover.positionX -= 1;
-    writeAlertPosition();
+    limitsDetected = true;
+    writePosition();
   }
   if (myRover.positionY > 0 && myRover.positionY > gridLimit) {
     myRover.positionY -= 1;
-    writeAlertPosition();
+    limitsDetected = true;
+    writePosition();
   }
   if (myRover.positionX < 0 && myRover.positionX < gridLimit) {
     myRover.positionX += 1;
-    writeAlertPosition();
+    limitsDetected = true;
+    writePosition();
   }
   if (myRover.positionY < 0 && myRover.positionY < gridLimit) {
     myRover.positionY += 1;
-    writeAlertPosition();
+    limitsDetected = true;
+    writePosition();
   }
 
 }
 function detectObstacle()
 {
-  for (i = 0; i < obstacles.length; i++) {
+  for (var i = 0; i < obstacles.length; i++) {
 
-    if (!obstacles[0] || !obstacles[1] || !obstacles[2]) {
-    writePosition();
-    } else{
-      if (myRover.positionX === obstacles[0] || myRover.positionX === obstacles[1] || myRover.positionX === obstacles[2]) {
+      if (myRover.positionX === obstacles[i][0] && myRover.positionY === obstacles[i][1] ) {
         myRover.positionX -= 1;
         myRover.positionY -= 1;
-        writeAlertPosition();
-      }
-      if (myRover.positionY === obstacles[0] || myRover.positionY === obstacles[1] || myRover.positionY === obstacles[2]) {
-        myRover.positionX -= 1;
-        myRover.positionY -= 1;
-        writeAlertPosition();
-      }
-    }
-  }
+        obstacleDetected = true;
+        writePosition();
+  }else {
+     writePosition();
+   }
+ }
 }
 
 function moveRover()
 {
+  obstacleDetected = false;
+  limitsDetected = false;
 	var commands = document.getElementById("instruction").value;
 
 	for (i=0;i<commands.length;i++)
@@ -174,26 +172,21 @@ function moveRover()
 	}
 }
 
-function writePosition()
-{
-  document.getElementById('position').innerHTML = "<b>Rover Position: position X: " + myRover.positionX + " position Y: " + myRover.positionY + " Facing " + myRover.direction + "</b>";
-}
-
- function writeAlertPosition(){
-
-   if(detectObstacle()===true){
+ function writePosition(){
+   if(obstacleDetected === true){
     document.getElementById('position').innerHTML = "<b>Crashed! setting previous position: " + myRover.positionX + " position Y: " + myRover.positionY + " Facing " + myRover.direction + "</b>";
    }
-   if(gridLimits()===true){
+   else if(limitsDetected === true){
      document.getElementById('position').innerHTML = "<b>passed the grid limits! setting previous position: " + myRover.positionX + " position Y: " + myRover.positionY + " Facing " + myRover.direction + "</b>";
+   }else if (limitsDetected === false && obstacleDetected === false){
+     document.getElementById('position').innerHTML = "<b>Rover Position: position X: " + myRover.positionX + " position Y: " + myRover.positionY + " Facing " + myRover.direction + "</b>";
    }
  }
 
-function reset()
-{
+function reset(){
 	myRover.positionX = 0;
 	myRover.positionY = 0;
 	myRover.direction = 'N'
 	document.getElementById('instruction').value = "";
-	writePosition();
+  writePosition();
 }
